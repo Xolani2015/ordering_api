@@ -4,10 +4,10 @@ const Product = require('./models/product.model.js'); // Assuming you have a pro
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-const productRoute = require('./routes/product.route.js'); // Assuming you have a product route defined in routes/product.routes.js
+const productRoute = require('./api/product.route.js'); // Assuming you have a product route defined in routes/product.routes.js
 
 //routes
-app.use('/api/products', require('./routes/product.route.js')); // Assuming you have a product route defined in routes/product.routes.js
+app.use('/api/products', require('./api/product.route.js')); // Assuming you have a product route defined in routes/product.routes.js
 
 app.get('/', (req, res) => {
   res.send('Hello World! from Express API nodemon 3');
