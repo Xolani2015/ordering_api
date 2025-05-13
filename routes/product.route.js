@@ -12,3 +12,4 @@ router.delete('/delete/:id', deleteProduct); // Delete a product by ID
 
 
 module.exports = router;
+
