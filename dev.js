@@ -1,6 +1,9 @@
-const app = require('./index');
+const { app, connectToDatabase } = require('./api');
 const PORT = 3001;
-
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+const productRoute = require('./routes/product.route.js');
+app.use('/api/products', productRoute);
+connectToDatabase().then(() => {
+  app.listen(PORT, () => {
+    console.log(`Server running locally at http://localhost:${PORT}`);
+  });
 });
