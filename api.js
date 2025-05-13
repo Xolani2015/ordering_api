@@ -15,7 +15,7 @@ async function connectToDatabase() {
   if (isConnected) return;
   await mongoose.connect(
     'mongodb+srv://backendcluster0:XnB3Pu6jnG6ee12b@cluster0.fkkvbai.mongodb.net/Node-API?retryWrites=true&w=majority&appName=Cluster0',
-    { useNewUrlParser: true, useUnifiedTopology: true }
+
   );
   isConnected = true;
   console.log('MongoDB connected');
