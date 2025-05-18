@@ -27,13 +27,35 @@ const getProduct = async (req, res) => {
 }
 
 const createProduct = async (req, res) => {
-   try { 
-        const product = await Product.create(req.body);
-        res.status(200).json(product);
-   } catch (error) {
-        res.status(500).json({ message: 'Error creating product', error });
-    }
-}
+  try {
+    const {
+      name,
+      description,
+      quantity,
+      price,
+      category,
+      stock,
+      image,
+      isDeleted
+    } = req.body;
+
+    const product = await Product.create({
+      name,
+      description,
+      quantity,
+      price,
+      category,
+      stock,
+      image,
+      isDeleted,
+      orderState: "new" // <-- set or override the product state here
+    });
+
+    res.status(200).json(product);
+  } catch (error) {
+    res.status(500).json({ message: 'Error creating product', error });
+  }
+};
 
 const updateProduct = async (req, res) => {
   try{ 
@@ -48,6 +70,31 @@ const updateProduct = async (req, res) => {
     res.status(500).json({ message: 'Error updating product', error });
   }
 }
+
+const updateProductState = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { orderState } = req.body;
+
+    if (!orderState) {
+      return res.status(400).json({ message: 'productState is required' });
+    }
+
+    const product = await Product.findByIdAndUpdate(
+      id,
+      { orderState },
+      { new: true } // returns the updated document
+    );
+
+    if (!product) {
+      return res.status(404).json({ message: 'Product not found' });
+    }
+
+    res.status(200).json(product);
+  } catch (error) {
+    res.status(500).json({ message: 'Error updating product', error });
+  }
+};
 
 const deleteProduct = async (req, res) => {
     try {
@@ -69,6 +116,7 @@ module.exports = {
     getProduct,
     createProduct,
     updateProduct,
+    updateProductState,
     deleteProduct,
     // Add other controller functions here
     
